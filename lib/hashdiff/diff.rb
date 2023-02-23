@@ -102,6 +102,11 @@ module Hashdiff
 
     return [['~', opts[:prefix], obj1, obj2]] unless comparable?(obj1, obj2, opts[:strict])
 
+    if obj1.is_a?(Array) && opts[:sort_arrays]
+      obj1 = obj1.dup.sort
+      obj2 = obj2.dup.sort
+    end
+
     return LcsCompareArrays.call(obj1, obj2, opts) if obj1.is_a?(Array) && opts[:use_lcs]
 
     return LinearCompareArray.call(obj1, obj2, opts) if obj1.is_a?(Array) && !opts[:use_lcs]
